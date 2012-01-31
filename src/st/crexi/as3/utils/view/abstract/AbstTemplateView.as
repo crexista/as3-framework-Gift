@@ -1,13 +1,26 @@
-package st.crexi.as3.utils.abstract
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Copyright 2011-2012 crexista(kaoru_shibasaki)
+//  All Rights Reserved.
+//
+//  NOTICE: crexista permits you to use, modify, and distribute this file
+//  in accordance with the terms of the license agreement accompanying it.
+//
+////////////////////////////////////////////////////////////////////////////////
+package st.crexi.as3.utils.view.abstract
 {
 	
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
+	import flash.display.MovieClip;
 	import flash.errors.IllegalOperationError;
 	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	
 	import mx.core.MovieClipLoaderAsset;
 	import mx.events.PropertyChangeEvent;
+	
+	import st.crexi.as3.utils.view.event.ViewBehaviorInitEvent;
 	
 	/**
 	 * Templateの抽象クラスです.
@@ -17,7 +30,7 @@ package st.crexi.as3.utils.abstract
 	 * @author kaoru_shibasaki
 	 * 
 	 */	
-	public class AbstTemplateView
+	public class AbstTemplateView extends EventDispatcher
 	{
 		
 		/**
@@ -41,20 +54,16 @@ package st.crexi.as3.utils.abstract
 		/**
 		 * メソッド名称です
 		 */		
-		private const METHOD_NAME_ADDEVENTLISTNER:String = "addEventListener";
+		private const METHOD_NAME_CALLERCLASS:String = "callerClass";
 		
 		
 		/**
 		 * メソッド名称です
 		 */		
-		private const METHOD_NAME_REMOVEEVENTLISTNER:String = "removeEventListener";
+		private const METHOD_NAME_BEHAVIORCLASS:String = "behaviorClass";
+
 		
-		
-		/**
-		 * 埋め込まれたswfの実体です
-		 * 
-		 */		
-		private var _entity:*;
+
 
 
 
@@ -68,8 +77,7 @@ package st.crexi.as3.utils.abstract
 		public function AbstTemplateView()
 		{			
 			if (this["constructor"] == AbstTemplateView) throw new IllegalOperationError("このクラスは継承して使ってください");
-			var mc: MovieClipLoaderAsset = new this[METHOD_NAME_EMBEDSWF]();
-			this[METHOD_NAME_ADDEVENTLISTNER](PropertyChangeEvent.PROPERTY_CHANGE, initEntity);
+			var mc: MovieClipLoaderAsset = new this[METHOD_NAME_EMBEDSWF]();			
 			Loader(mc.getChildAt(0)).contentLoaderInfo.addEventListener(Event.INIT, onInit);
 		}
 
@@ -84,37 +92,17 @@ package st.crexi.as3.utils.abstract
 		{
 			var info: LoaderInfo = LoaderInfo(event.target);
 			var name:String = this[METHOD_NAME_TEMPLATENAME];
-			info.removeEventListener(Event.INIT, onInit);
-
-			_entity = info.content[this[name]];
-		}
-		
-		
-		
-		/**
-		 * enetityを初期化します
-		 * @param event
-		 * 
-		 */		
-		protected function initEntity(event:PropertyChangeEvent):void
-		{
-			if (_entity) throw new IllegalOperationError("既に初期化済みです");
-			_entity = event.newValue;
-			this[METHOD_NAME_REMOVEEVENTLISTNER](PropertyChangeEvent.PROPERTY_CHANGE, initEntity);
+			var caller:AbstViewCaller = new this[METHOD_NAME_CALLERCLASS]();
+			var behavior:*;
+			var mc:MovieClip = info.content as MovieClip;
+			
+			info.removeEventListener(Event.INIT, onInit);			
+			caller[AbstViewCaller.SET_ROOT] = mc[this[METHOD_NAME_TEMPLATENAME]]; 
+			
+			behavior = new this[METHOD_NAME_BEHAVIORCLASS]();
+			dispatchEvent(new ViewBehaviorInitEvent(ViewBehaviorInitEvent.INIT, behavior));
 		}
 
-
-
-		/**
-		 * 埋め込まれたtemplateの実体を返します
-		 * @return 
-		 * 
-		 */		
-		public function get entity():*
-		{
-			return _entity;
-		}
-		
 
 	}
 }

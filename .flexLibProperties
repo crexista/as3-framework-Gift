@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
   <includeClasses>
-    <classEntry path="st.crexi.as3.utils.interfaces.IViewBehaviorRoot"/>
-    <classEntry path="st.crexi.as3.utils.abstract.AbstViewCaller"/>
+    <classEntry path="st.crexi.as3.utils.view.interfaces.ITemplateView"/>
+    <classEntry path="st.crexi.as3.utils.view.abstract.AbstTemplateView"/>
+    <classEntry path="st.crexi.as3.utils.view.interfaces.IViewCaller"/>
+    <classEntry path="st.crexi.as3.utils.view.interfaces.IViewRoot"/>
+    <classEntry path="st.crexi.as3.utils.view.event.ViewBehaviorInitEvent"/>
+    <classEntry path="st.crexi.as3.utils.view.abstract.TraitViewRoot"/>
+    <classEntry path="st.crexi.as3.utils.view.interfaces.IViewComposition"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
