@@ -7,19 +7,19 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.utils.view.abstract
+package st.crexi.as3.framework.scenario.abstract
 {
 	import flash.display.MovieClip;
 	import flash.utils.Dictionary;
 	
 	import mx.events.PropertyChangeEvent;
 	
-	import st.crexi.as3.utils.view.interfaces.IViewRoot;
+	import st.crexi.as3.framework.scenario.interfaces.IViewRoot;
 
 	/**
 	 * IViewCallerと合わせて使ってください
 	 * このクラスは抽象クラスなため、そのまま呼ぶとエラーが飛びます
-	 * @author kaoru_shibasaki
+	 * @author crexista
 	 * 
 	 */	
 	public class AbstViewCaller

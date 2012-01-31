@@ -1,10 +1,10 @@
-package st.crexi.as3.utils.view.interfaces
+package st.crexi.as3.framework.scenario.interfaces
 {
 	import flash.display.DisplayObjectContainer;
 
 	/**
 	 * Viewの構造を返します
-	 * @author kaoru_shibasaki
+	 * @author crexista
 	 * 
 	 */	
 	public interface IViewComposition

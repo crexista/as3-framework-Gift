@@ -7,25 +7,44 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.utils.view.abstract
+package st.crexi.as3.framework.scenario.abstract
 {
 	import flash.display.MovieClip;
 	import flash.errors.IllegalOperationError;
 	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	
-	import st.crexi.as3.utils.view.interfaces.IViewRoot;
+	import st.crexi.as3.framework.scenario.interfaces.IViewRoot;
 
 	
 	/**
-	 * ViewRootの振る舞いです
-	 * @author kaoru_shibasaki
+	 * ViewRootの振る舞いです<br/>
+	 * ViewCallerを実装したクラスから呼ばれます<br/>
+	 * 
+	 * このクラスは基本的に以下の注意点があります<br/>
+	 * 
+	 * <p>extendsする</p>
+	 * <p>extendsした子クラスがinternalではなくては行けない</p>
+	 * <p>一度しかnewできない</p>
+	 * 
+	 * @author crexista
 	 * 
 	 */	
 	public class TraitViewRoot implements IViewRoot
 	{
 		
+
+		/**
+		 * クラスをキーとしたインスタンスの辞書オブジェクトです
+		 */		
 		private static var classDic:Dictionary;
+
 		
+		
+		/**
+		 * rootとなるMovieClipを返します
+		 */
 		private var _root:MovieClip;
 							
 		/**
@@ -55,9 +74,20 @@ package st.crexi.as3.utils.view.abstract
 		 */		
 		public function TraitViewRoot() 
 		{
+			var className:String;
+			var isInternal:Boolean = false;
 			if (!classDic) classDic = new Dictionary();			
-			if (classDic[this["constructor"]]) throw IllegalOperationError("このクラスは既にnewされています");
+			if (classDic[this["constructor"]]) throw new IllegalOperationError("このクラスは既にnewされています");
 			
+			className = getQualifiedClassName(this);
+			
+			try {
+				getDefinitionByName(className);
+			}
+			catch(error:Error) {
+				isInternal = true;
+			}
+			if (!isInternal) throw new IllegalOperationError("TraitViewRootはInternalクラスにextendsしてください");
 			classDic[this["constructor"]] = this;
 		}
 		

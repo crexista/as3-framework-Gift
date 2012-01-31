@@ -7,14 +7,14 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.utils.view.interfaces
+package st.crexi.as3.framework.scenario.interfaces
 {
 	import flash.display.MovieClip;
 
 	
 	/**
 	 * ViewのRootを内包したクラスのInterfaceです
-	 * @author kaoru_shibasaki
+	 * @author crexista
 	 * 
 	 */	
 	public interface IViewRoot

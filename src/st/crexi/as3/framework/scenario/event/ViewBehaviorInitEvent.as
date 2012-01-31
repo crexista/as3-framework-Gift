@@ -7,13 +7,13 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.utils.view.event
+package st.crexi.as3.framework.scenario.event
 {
 	import flash.events.Event;
 	
 	/**
 	 * Viewの振る舞い挙動の初期化が終わったときに飛ぶイベントです
-	 * @author kaoru_shibasaki
+	 * @author crexista
 	 * 
 	 */	
 	public class ViewBehaviorInitEvent extends Event

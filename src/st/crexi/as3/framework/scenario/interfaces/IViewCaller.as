@@ -7,7 +7,7 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.utils.view.interfaces
+package st.crexi.as3.framework.scenario.interfaces
 {
 	import flash.display.MovieClip;
 
@@ -17,7 +17,7 @@ package st.crexi.as3.utils.view.interfaces
 	 * 
 	 * 内部でIViewRootを生成して、IViewRootがシングルトンである様に処理を行います
 	 * 
-	 * @author kaoru_shibasaki
+	 * @author crexista
 	 * 
 	 */	
 	public interface IViewCaller
