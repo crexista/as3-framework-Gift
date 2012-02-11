@@ -7,7 +7,7 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.framework.scenario.interfaces
+package st.crexi.as3.framework.gift.interfaces
 {
 	import flash.display.MovieClip;
 
@@ -25,19 +25,11 @@ package st.crexi.as3.framework.scenario.interfaces
 		
 		/**
 		 * テンプレートのrootとなるMovieClipを返します
+		 * 実装する際は[Bindable] setterを付け加えてください
 		 * @return 
 		 * 
 		 */		
 		function get root():*;
 		
-		
-		
-		/**
-		 * IViewRootを実装したクラスオブジェクトです
-		 * Internalクラスを入れてください
-		 * @return 
-		 * 
-		 */		
-		function get viewRootClass():Class;
 	}
 }

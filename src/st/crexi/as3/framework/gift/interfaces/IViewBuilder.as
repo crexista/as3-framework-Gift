@@ -7,9 +7,10 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.framework.scenario.interfaces
+package st.crexi.as3.framework.gift.interfaces
 {
 	import flash.display.DisplayObjectContainer;
+	import flash.display.LoaderInfo;
 	
 	/**
 	 * Templateのswfのインターフェースです
@@ -25,7 +26,7 @@ package st.crexi.as3.framework.scenario.interfaces
 		 * @return 
 		 * 
 		 */		
-		function get embedSWF():Class;
+		function get swfClass():Class;
 		
 		
 		
@@ -59,10 +60,30 @@ package st.crexi.as3.framework.scenario.interfaces
 		
 		
 		/**
+		 * 処理が終了したときに飛ぶevent名を規定します
+		 * @return 
+		 * 
+		 */		
+		function get eventType():String;
+		
+		
+		
+		/**
+		 * IViewCompostionを実装したクラスインスタンスをなんと言う名称でevent.targetオブジェクトに入れるかを決めます<br/>
+		 * 例えば、ここの値が"hoge"だった場合はevent.targe.hogeにcompositionクラスを実装したインスタンスが入ります<br/>
+		 * 
+		 * @return 
+		 * 
+		 */		
+		function get propertyName():String;
+		
+		
+		
+		/**
 		 * IViewBuilderを初期化します
 		 * @param viewRoot
 		 * 
 		 */		
-		function initialize(viewRoot:DisplayObjectContainer):void;
+		function initialize(loaderInfo:LoaderInfo):void
 	}
 }

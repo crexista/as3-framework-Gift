@@ -7,14 +7,14 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.framework.scenario.abstract
+package st.crexi.as3.framework.gift.abstract
 {
 	import flash.display.MovieClip;
+	import flash.events.IEventDispatcher;
 	import flash.utils.Dictionary;
 	
 	import mx.events.PropertyChangeEvent;
 	
-	import st.crexi.as3.framework.scenario.interfaces.IViewRoot;
 
 	/**
 	 * IViewCallerと合わせて使ってください
@@ -51,15 +51,17 @@ package st.crexi.as3.framework.scenario.abstract
 		
 		
 		/**
-		 * クラスをキーとして辞書を作ります
+		 * クラス名をキーとして辞書を作ります
 		 */		
 		private static var classDic:Dictionary;
+		
+				
 		
 		
 		/**
 		 * viewのRootのオブジェクトです
 		 */
-		private var _viewRoot:IViewRoot;
+		private static var _viewRoot:MovieClip;
 		
 
 		/**
@@ -67,14 +69,8 @@ package st.crexi.as3.framework.scenario.abstract
 		 * 
 		 */
 		public function AbstViewCaller()
-		{
-			if (!classDic) classDic = new Dictionary();
-			if (!classDic[this[METHOD_NAME_ROOTCLASS]]) classDic[this[METHOD_NAME_ROOTCLASS]] = new this[METHOD_NAME_ROOTCLASS]();
-			
-			_viewRoot = classDic[this[METHOD_NAME_ROOTCLASS]];
-			
-			this[METHOD_NAME_ADDEVENTLISTNER](PropertyChangeEvent.PROPERTY_CHANGE, onSet);
-
+		{			
+			IEventDispatcher(this).addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, onSet);
 		}
 		
 		
@@ -87,8 +83,10 @@ package st.crexi.as3.framework.scenario.abstract
 		 */		
 		protected function onSet(event:PropertyChangeEvent):void
 		{
-			_viewRoot.root = event.newValue as MovieClip;
-			this[METHOD_NAME_REMOVEEVENTLISTNER](PropertyChangeEvent.PROPERTY_CHANGE, onSet);
+			//TODO 後でErrorクラスを作る
+			if (event.oldValue) throw new Error("既に値が入っています");
+			_viewRoot = event.newValue as MovieClip;
+						
 		}
 		
 		
@@ -99,7 +97,7 @@ package st.crexi.as3.framework.scenario.abstract
 		 */		
 		public function get root():*
 		{
-			return _viewRoot.root;
+			return _viewRoot;
 		}
 	}
 }

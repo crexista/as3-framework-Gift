@@ -7,16 +7,17 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.framework.scenario.event
+package st.crexi.as3.framework.gift.event
 {
 	import flash.events.Event;
+	
 	
 	/**
 	 * Viewの振る舞い挙動の初期化が終わったときに飛ぶイベントです
 	 * @author crexista
 	 * 
 	 */	
-	public class ViewBehaviorInitEvent extends Event
+	public class DeliverEvent extends Event
 	{
 		
 		/**
@@ -30,6 +31,12 @@ package st.crexi.as3.framework.scenario.event
 		 */		
 		private var _behavior:*;
 		
+		private var _target:Object;
+		
+		private var _propName:String;
+		
+		private var _composition:Object;
+		
 		
 		/**
 		 * コンストラクタです
@@ -37,27 +44,25 @@ package st.crexi.as3.framework.scenario.event
 		 * @param behavior
 		 * 
 		 */		
-		public function ViewBehaviorInitEvent(type:String, behavior:*)
-		{
+		public function DeliverEvent(type:String, propName:String, composition:Object)
+		{			
 			super(type);
-			_behavior = behavior;
+			_target = new Object;
+			_target[propName] = composition;
+			_propName = propName;
+			_composition = composition;
 		}
 		
-		
-		/**
-		 * Viewの振る舞いをかえします
-		 * @return 
-		 * 
-		 */		
-		public function get behavior():*
+		override public function get target():Object
 		{
-			return _behavior;
+			return _target;
 		}
 		
+
 		
 		override public function clone():Event
 		{
-			return new ViewBehaviorInitEvent(type, behavior);
+			return new DeliverEvent(type, _propName, _composition);
 		}
 	}
 }

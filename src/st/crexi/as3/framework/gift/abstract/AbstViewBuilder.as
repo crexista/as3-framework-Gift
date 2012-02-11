@@ -7,7 +7,7 @@
 //  in accordance with the terms of the license agreement accompanying it.
 //
 ////////////////////////////////////////////////////////////////////////////////
-package st.crexi.as3.framework.scenario.abstract
+package st.crexi.as3.framework.gift.abstract
 {
 	
 	import flash.display.DisplayObjectContainer;
@@ -21,8 +21,8 @@ package st.crexi.as3.framework.scenario.abstract
 	import mx.core.MovieClipLoaderAsset;
 	import mx.events.PropertyChangeEvent;
 	
-	import st.crexi.as3.framework.scenario.event.ViewBehaviorInitEvent;
-	import st.crexi.as3.framework.scenario.interfaces.IViewComposition;
+	import st.crexi.as3.framework.gift.event.DeliverEvent;
+	import st.crexi.as3.framework.gift.interfaces.IViewBuilder;
 	
 	/**
 	 * Templateの抽象クラスです.
@@ -35,40 +35,19 @@ package st.crexi.as3.framework.scenario.abstract
 	public class AbstViewBuilder extends EventDispatcher
 	{
 		
-		/**
-		 * メソッド名称です
-		 */		
-		private const METHOD_NAME_EMBEDSWF:String = "embedSWF";
-		
-		
-		/**
-		 * メソッド名称です
-		 */		
-		private const METHOD_NAME_TEMPLATENAME:String = "name";
-		
-		
-		/**
-		 * メソッド名称です
-		 */		
-		private const METHOD_NAME_ENTITY:String = "entity";
-		
-		
-		/**
-		 * メソッド名称です
-		 */		
-		private const METHOD_NAME_CALLERCLASS:String = "callerClass";
-		
-		
-		/**
-		 * メソッド名称です
-		 */		
-		private const METHOD_NAME_BEHAVIORCLASS:String = "behaviorClass";
 
 		
 		/**
 		 * 
 		 */		
 		private var _viewRoot:DisplayObjectContainer;
+		
+		
+		
+		/**
+		 * Viewの準備ができたときにloaderInfoのSharedEventを通して通知します
+		 */		
+		private var _loaderInfo:LoaderInfo
 		
 
 
@@ -93,14 +72,17 @@ package st.crexi.as3.framework.scenario.abstract
 		 * @param viewRoot
 		 * 
 		 */		
-		public function initialize(viewRoot:DisplayObjectContainer):void
+		public function initialize(loaderInfo:LoaderInfo):void
 		{
-			_viewRoot = viewRoot;
-			var mc:* = new this[METHOD_NAME_EMBEDSWF]();
+			if (!loaderInfo) throw new Error("loaderInfoをいれてください");			
+			_loaderInfo = loaderInfo;
+			
+			var mc:* = new (IViewBuilder(this).swfClass)();
 			if (mc is MovieClipLoaderAsset) {
 				Loader(mc.getChildAt(0)).contentLoaderInfo.addEventListener(Event.INIT, onInit);
 			}
 			else {
+				import mx.events.PropertyChangeEvent; PropertyChangeEvent;
 				notifyInit(mc);
 			}
 			
@@ -129,21 +111,22 @@ package st.crexi.as3.framework.scenario.abstract
 		 */		
 		protected function notifyInit(mc:MovieClip):void
 		{
-			var name:String = this[METHOD_NAME_TEMPLATENAME];
-			var caller:AbstViewCaller = new this[METHOD_NAME_CALLERCLASS]();
-			var behavior:IViewComposition;
 			
-			if (this[METHOD_NAME_TEMPLATENAME] != null) {				
-				caller[AbstViewCaller.SET_ROOT] = mc[this[METHOD_NAME_TEMPLATENAME]];
+			var caller:AbstViewCaller = new (IViewBuilder(this).callerClass)();			
+			var composition:Object
+			
+			if (IViewBuilder(this).name != null) {				
+				caller[AbstViewCaller.SET_ROOT] = mc[IViewBuilder(this).name];
 			}
 			else {
 				caller[AbstViewCaller.SET_ROOT] = mc;
 			}
 			
-			behavior = new this[METHOD_NAME_BEHAVIORCLASS]();
-			behavior.initialize(_viewRoot);
-			dispatchEvent(new ViewBehaviorInitEvent(ViewBehaviorInitEvent.INIT, behavior));
-
+			composition = new (IViewBuilder(this).compositionClass)();
+						
+			_loaderInfo.sharedEvents.dispatchEvent(new DeliverEvent(IViewBuilder(this).eventType,
+																	IViewBuilder(this).propertyName,
+																	composition));
 		}
 
 
