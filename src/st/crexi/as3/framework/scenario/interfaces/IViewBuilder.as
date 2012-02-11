@@ -45,7 +45,7 @@ package st.crexi.as3.framework.scenario.interfaces
 		 * @return 
 		 * 
 		 */		
-		function get behaviorClass():Class
+		function get compositionClass():Class
 		
 		
 		
