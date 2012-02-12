@@ -74,7 +74,6 @@ package st.crexi.as3.framework.gift.abstract
 		 */		
 		public function initialize(loaderInfo:LoaderInfo):void
 		{
-			if (!loaderInfo) throw new Error("loaderInfoをいれてください");			
 			_loaderInfo = loaderInfo;
 			
 			var mc:* = new (IViewBuilder(this).swfClass)();
@@ -124,13 +123,15 @@ package st.crexi.as3.framework.gift.abstract
 			
 			composition = new (IViewBuilder(this).compositionClass)();
 						
-			_loaderInfo.sharedEvents.dispatchEvent(new DeliverEvent(IViewBuilder(this).eventType,
-																	IViewBuilder(this).propertyName,
-																	composition));
 			
 			dispatchEvent(new DeliverEvent(IViewBuilder(this).eventType,
 						IViewBuilder(this).propertyName,
 						composition));
+			if (!_loaderInfo) return;
+			_loaderInfo.sharedEvents.dispatchEvent(new DeliverEvent(IViewBuilder(this).eventType,
+				IViewBuilder(this).propertyName,
+				composition));
+
 		}
 
 
