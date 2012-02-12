@@ -84,7 +84,7 @@ package st.crexi.as3.framework.gift.abstract
 		protected function onSet(event:PropertyChangeEvent):void
 		{
 			//TODO 後でErrorクラスを作る
-			if (event.oldValue) throw new Error("既に値が入っています");
+			if (event.oldValue && !AbstViewBuilder.isBuilderInit) throw new Error("既に値が入っています");
 			_viewRoot = event.newValue as MovieClip;
 						
 		}

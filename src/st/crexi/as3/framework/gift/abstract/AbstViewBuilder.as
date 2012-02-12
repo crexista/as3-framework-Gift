@@ -35,6 +35,7 @@ package st.crexi.as3.framework.gift.abstract
 	public class AbstViewBuilder extends EventDispatcher
 	{
 		
+		internal static var isBuilderInit:Boolean = false;
 
 		
 		/**
@@ -114,12 +115,14 @@ package st.crexi.as3.framework.gift.abstract
 			var caller:AbstViewCaller = new (IViewBuilder(this).callerClass)();			
 			var composition:Object
 			
+			isBuilderInit = true;
 			if (IViewBuilder(this).name != null) {				
 				caller[AbstViewCaller.SET_ROOT] = mc[IViewBuilder(this).name];
 			}
 			else {
 				caller[AbstViewCaller.SET_ROOT] = mc;
 			}
+			isBuilderInit = false;
 			
 			composition = new (IViewBuilder(this).compositionClass)();
 						
