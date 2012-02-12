@@ -127,7 +127,12 @@ package st.crexi.as3.framework.gift.abstract
 			_loaderInfo.sharedEvents.dispatchEvent(new DeliverEvent(IViewBuilder(this).eventType,
 																	IViewBuilder(this).propertyName,
 																	composition));
+			
+			dispatchEvent(new DeliverEvent(IViewBuilder(this).eventType,
+						IViewBuilder(this).propertyName,
+						composition));
 		}
+
 
 
 	}
